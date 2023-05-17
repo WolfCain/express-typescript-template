@@ -15,3 +15,27 @@ services:
     ports:
       - '4000:4000'
     command: npm run dev
+  express-mysql:        
+    image: mysql:8.0
+    restart: always 
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}   
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - /db:/var/lib/mysql
+  express-myadmin:
+    image: phpmyadmin:latest
+    restart: always
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=express-mysql
+      - PMA_PORTS=3306
+    ports:
+      - '8081:80'    
+      
